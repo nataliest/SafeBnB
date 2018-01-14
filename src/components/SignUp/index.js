@@ -22,6 +22,7 @@ const INITIAL_STATE = {
   email: '',
   passwordOne: '',
   passwordTwo: '',
+  zipcode: '',
   error: null,
 };
 
@@ -37,6 +38,7 @@ class SignUpForm extends Component {
       username,
       email,
       passwordOne,
+      zipcode
     } = this.state;
 
     const {
@@ -47,7 +49,7 @@ class SignUpForm extends Component {
       .then(authUser => {
 
         // Create a user in your own accessible Firebase Database too
-        db.doCreateUser(authUser.uid, username, email)
+        db.doCreateUser(authUser.uid, username, email, zipcode)
           .then(() => {
             this.setState(() => ({ ...INITIAL_STATE }));
             history.push(routes.HOME);
@@ -70,6 +72,7 @@ class SignUpForm extends Component {
       email,
       passwordOne,
       passwordTwo,
+      zipcode,
       error,
     } = this.state;
 
@@ -77,6 +80,7 @@ class SignUpForm extends Component {
       passwordOne !== passwordTwo ||
       passwordOne === '' ||
       username === '' ||
+      zipcode === '' ||
       email === '';
 
     return (
@@ -104,6 +108,12 @@ class SignUpForm extends Component {
           onChange={event => this.setState(updateByPropertyName('passwordTwo', event.target.value))}
           type="password"
           placeholder="Confirm Password"
+        />
+        <input
+          value={zipcode}
+          onChange={event => this.setState(updateByPropertyName('zipcode', event.target.value))}
+          type="text"
+          placeholder="Enter zipcode"
         />
         <button disabled={isInvalid} type="submit">
           Sign Up
