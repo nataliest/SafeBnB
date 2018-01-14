@@ -4,67 +4,39 @@ import {
   withRouter,
 } from 'react-router-dom';
 
+import GuestSignUp from '../Forms/guest.js';
+import HostSignUp from '../Forms/host.js';
+
 import { auth, db } from '../../firebase';
 import * as routes from '../../constants/routes';
-
-const SignUpPage = ({ history }) =>
-  <div>
-    <h1>SignUp</h1>
-    <SignUpForm history={history} />
-  </div>
 
 const updateByPropertyName = (propertyName, value) => () => ({
   [propertyName]: value,
 });
 
 const INITIAL_STATE = {
-  username: '',
-  email: '',
-  passwordOne: '',
-  passwordTwo: '',
-  zipcode: '',
-  error: null,
+  usertype: ''
 };
 
-class SignUpForm extends Component {
+class SignUpPage extends Component {
   constructor(props) {
     super(props);
-
+    this.history = this.props.history;
     this.state = { ...INITIAL_STATE };
+
+    this.setUserType = this.setUserType.bind(this);
   }
 
-  onSubmit = (event) => {
-    const {
-      username,
-      email,
-      passwordOne,
-      zipcode
-    } = this.state;
 
-    const {
-      history,
-    } = this.props;
-
-    auth.doCreateUserWithEmailAndPassword(email, passwordOne)
-      .then(authUser => {
-
-        // Create a user in your own accessible Firebase Database too
-        db.doCreateUser(authUser.uid, username, email, zipcode)
-          .then(() => {
-            this.setState(() => ({ ...INITIAL_STATE }));
-            history.push(routes.HOME);
-          })
-          .catch(error => {
-            this.setState(updateByPropertyName('error', error));
-          });
-
-      })
-      .catch(error => {
-        this.setState(updateByPropertyName('error', error));
-      });
-
-    event.preventDefault();
-  }
+    
+  setUserType(event) {
+    console.log(event.target.value);
+    const choice = event.target.value;
+    this.setState({
+      usertype: choice
+    })
+    console.log('type changed');
+  };
 
   render() {
     const {
@@ -84,43 +56,25 @@ class SignUpForm extends Component {
       email === '';
 
     return (
-      <form onSubmit={this.onSubmit}>
-        <input
-          value={username}
-          onChange={event => this.setState(updateByPropertyName('username', event.target.value))}
-          type="text"
-          placeholder="Full Name"
-        />
-        <input
-          value={email}
-          onChange={event => this.setState(updateByPropertyName('email', event.target.value))}
-          type="text"
-          placeholder="Email Address"
-        />
-        <input
-          value={passwordOne}
-          onChange={event => this.setState(updateByPropertyName('passwordOne', event.target.value))}
-          type="password"
-          placeholder="Password"
-        />
-        <input
-          value={passwordTwo}
-          onChange={event => this.setState(updateByPropertyName('passwordTwo', event.target.value))}
-          type="password"
-          placeholder="Confirm Password"
-        />
-        <input
-          value={zipcode}
-          onChange={event => this.setState(updateByPropertyName('zipcode', event.target.value))}
-          type="text"
-          placeholder="Enter zipcode"
-        />
-        <button disabled={isInvalid} type="submit">
-          Sign Up
-        </button>
+      <div>
+      <h1>SafeBnB</h1>
+      <h3>Sign up as a host or a guest:</h3>
+      <form >
+        <div>
+          <input type="radio" id="choice1"
+           name="contact" value="host" onChange={this.setUserType} defaultChecked />
+          <label htmlFor="choice1">Host</label>
 
-        { error && <p>{error.message}</p> }
+          <input type="radio" id="choice2"
+           name="contact" value="guest" onChange={this.setUserType} />
+          <label htmlFor="choice2">Guest</label>
+        </div>
       </form>
+      <div>
+        {(this.state.usertype === "guest") ? <GuestSignUp /> : <HostSignUp />}
+   
+      </div>
+    </div>
     );
   }
 }
@@ -135,6 +89,5 @@ const SignUpLink = () =>
 export default withRouter(SignUpPage);
 
 export {
-  SignUpForm,
   SignUpLink,
 };
