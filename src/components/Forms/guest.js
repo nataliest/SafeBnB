@@ -8,6 +8,8 @@ const updateByPropertyName = (propertyName, value) => () => ({
 
 const INITIAL_STATE = {
   username: '',
+  first: '',
+  last: '',
   email: '',
   passwordOne: '',
   passwordTwo: '',
@@ -26,6 +28,8 @@ export default class GuestSignUp extends React.Component {
   onSubmit = (event) => {
     const {
       username,
+      first,
+      last,
       email,
       passwordOne,
       zipcode
@@ -59,6 +63,8 @@ export default class GuestSignUp extends React.Component {
   render() {
     const {
       username,
+      first,
+      last,
       email,
       passwordOne,
       passwordTwo,
@@ -71,6 +77,8 @@ export default class GuestSignUp extends React.Component {
       passwordOne === '' ||
       username === '' ||
       zipcode === '' ||
+      first === '' ||
+      last === '' ||
       email === '';
 
     return (
@@ -80,32 +88,51 @@ export default class GuestSignUp extends React.Component {
           value={username}
           onChange={event => this.setState(updateByPropertyName('username', event.target.value))}
           type="text"
-          placeholder="Full Name"
+          placeholder="Username"
         />
+        <br/>
+        <input
+          value={first}
+          onChange={event => this.setState(updateByPropertyName('first', event.target.value))}
+          type="text"
+          placeholder="First name"
+        />
+         <br/>
+        <input
+          value={last}
+          onChange={event => this.setState(updateByPropertyName('last', event.target.value))}
+          type="text"
+          placeholder="Last name"
+        />
+         <br/>
         <input
           value={email}
           onChange={event => this.setState(updateByPropertyName('email', event.target.value))}
           type="text"
           placeholder="Email Address"
         />
+         <br/>
         <input
           value={passwordOne}
           onChange={event => this.setState(updateByPropertyName('passwordOne', event.target.value))}
           type="password"
           placeholder="Password"
         />
+         <br/>
         <input
           value={passwordTwo}
           onChange={event => this.setState(updateByPropertyName('passwordTwo', event.target.value))}
           type="password"
           placeholder="Confirm Password"
         />
+         <br/>
         <input
           value={zipcode}
           onChange={event => this.setState(updateByPropertyName('zipcode', event.target.value))}
           type="text"
           placeholder="Enter zipcode"
         />
+         <br/>
         <button disabled={isInvalid} type="submit">
           Sign Up
         </button>
