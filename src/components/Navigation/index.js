@@ -7,7 +7,8 @@ import SignOutButton from '../SignOut';
 import * as routes from '../../constants/routes';
 
 const Navigation = ({ sessionStore }) =>
-  <div>
+  <div className="navigation">
+    <h1><Link to={routes.LANDING}>SafeBnB</Link></h1>
     { sessionStore.authUser
         ? <NavigationAuth />
         : <NavigationNonAuth />
@@ -16,7 +17,6 @@ const Navigation = ({ sessionStore }) =>
 
 const NavigationAuth = () =>
   <ul>
-    <li><Link to={routes.LANDING}>Landing</Link></li>
     <li><Link to={routes.HOME}>Home</Link></li>
     <li><Link to={routes.ACCOUNT}>Account</Link></li>
     <li><SignOutButton /></li>
@@ -24,7 +24,6 @@ const NavigationAuth = () =>
 
 const NavigationNonAuth = () =>
   <ul>
-    <li><Link to={routes.LANDING}>Landing</Link></li>
     <li><Link to={routes.SIGN_IN}>Sign In</Link></li>
   </ul>
 

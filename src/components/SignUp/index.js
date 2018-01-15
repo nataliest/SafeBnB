@@ -57,17 +57,19 @@ class SignUpPage extends Component {
 
     return (
       <div>
-      <h1>SafeBnB</h1>
-      <h3>Sign up as a host or a guest:</h3>
+      <h1 className="page-title">Sign up as a host or a guest</h1>
       <form >
-        <div>
-          <input type="radio" id="choice1"
-           name="contact" value="host" onChange={this.setUserType} defaultChecked />
-          <label htmlFor="choice1">Host</label>
-
-          <input type="radio" id="choice2"
-           name="contact" value="guest" onChange={this.setUserType} />
-          <label htmlFor="choice2">Guest</label>
+        <div className="choose-signup-type">
+          <span className="signup-option">
+            <input type="radio" id="choice1"
+             name="contact" value="host" onChange={this.setUserType} defaultChecked />
+            <label htmlFor="choice1">Host</label>
+          </span>
+          <span className="signup-option">
+            <input type="radio" id="choice2"
+             name="contact" value="guest" onChange={this.setUserType} />
+            <label htmlFor="choice2">Guest</label>
+          </span>
         </div>
       </form>
       <div>
